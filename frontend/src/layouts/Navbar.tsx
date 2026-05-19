@@ -9,7 +9,7 @@ const Navbar = () => {
         </div>
 
         <h1 className="text-xl font-semibold text-blue-700">
-          HostelManager
+          OSTELLO
         </h1>
       </div>
 
