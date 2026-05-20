@@ -6,7 +6,7 @@ type Props = {
   reporter: string;
   status: string;
   time: string;
-  color: "red" | "blue" | "green";
+  color: "red" | "blue" | "green" | "orange";
 };
 
 const colorStyles = {
@@ -22,6 +22,10 @@ const colorStyles = {
     text: "text-green-600",
     badge: "bg-green-100 text-green-600",
   },
+  orange: {
+  text: "text-orange-600",
+  badge: "bg-orange-100 text-orange-600",
+},
 };
 
 const RequestCard = ({
@@ -49,7 +53,6 @@ const RequestCard = ({
         </span>
       </div>
 
-      {/* TITLE */}
       <h2 className="text-3xl font-bold mt-4">
         {title}
       </h2>

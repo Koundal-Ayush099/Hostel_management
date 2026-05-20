@@ -1,16 +1,10 @@
 import { Bell, Search } from "lucide-react";
-
+import Logo from '../assets/Logo.png'
 const Navbar = () => {
   return (
     <div className="h-16 border-b border-gray-200 bg-white px-6 flex items-center justify-between sticky top-0">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
-          H
-        </div>
-
-        <h1 className="text-xl font-semibold text-blue-700">
-          OSTELLO
-        </h1>
+        <img src={Logo} className="w-40 h-30"/>
       </div>
 
       <div className="flex items-center gap-10">

@@ -18,7 +18,7 @@ const FeesCard = () => {
           </span>
 
           <span className="font-bold text-xl">
-            $4,250
+            ₹48,000
           </span>
         </div>
 
@@ -28,7 +28,7 @@ const FeesCard = () => {
           </span>
 
           <span className="font-bold text-red-600 text-xl">
-            $840
+            ₹8,000
           </span>
         </div>
       </div>
