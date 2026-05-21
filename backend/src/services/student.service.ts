@@ -38,6 +38,7 @@ export const getStudentById = async (
 export const createStudent = async (
   data: any
 ) => {
+
   const {
     fullName,
     email,
@@ -53,39 +54,103 @@ export const createStudent = async (
     roomId,
   } = data;
 
-  const [result]: any = await pool.query(
-    `
-    INSERT INTO students (
-      full_name,
-      email,
-      phone,
-      gender,
-      dob,
-      course,
-      year,
-      status,
-      profile_image,
-      emergency_contact_name,
-      emergency_contact_phone,
-      room_id
-    )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `,
-    [
-      fullName,
-      email,
-      phone,
-      gender,
-      dob,
-      course,
-      year,
-      status,
-      profileImage,
-      emergencyContactName,
-      emergencyContactPhone,
-      roomId,
-    ]
-  );
+  const [result]: any =
+    await pool.query(
+      `
+      INSERT INTO students (
+        full_name,
+        email,
+        phone,
+        gender,
+        dob,
+        course,
+        year,
+        status,
+        profile_image,
+        emergency_contact_name,
+        emergency_contact_phone,
+        room_id
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `,
+      [
+        fullName,
+        email,
+        phone,
+        gender,
+        dob,
+        course,
+        year,
+        status,
+        profileImage,
+        emergencyContactName,
+        emergencyContactPhone,
+        roomId,
+      ]
+    );
+
+  /*
+    UPDATE ROOM OCCUPANCY
+  */
+
+  if (roomId) {
+
+    await pool.query(
+      `
+      UPDATE rooms
+      SET occupied_beds =
+        occupied_beds + 1
+      WHERE id = ?
+      `,
+      [roomId]
+    );
+
+    const [rooms]: any =
+      await pool.query(
+        `
+        SELECT
+          capacity,
+          occupied_beds
+        FROM rooms
+        WHERE id = ?
+        `,
+        [roomId]
+      );
+
+    const room = rooms[0];
+
+    let roomStatus =
+      "PARTIAL";
+
+    if (
+      room.occupied_beds === 0
+    ) {
+
+      roomStatus =
+        "VACANT";
+    }
+
+    else if (
+      room.occupied_beds >=
+      room.capacity
+    ) {
+
+      roomStatus =
+        "OCCUPIED";
+    }
+
+    await pool.query(
+      `
+      UPDATE rooms
+      SET status = ?
+      WHERE id = ?
+      `,
+      [
+        roomStatus,
+        roomId,
+      ]
+    );
+  }
 
   return result.insertId;
 };

@@ -3,7 +3,6 @@ import { Plus, Search } from "lucide-react";
 const RoomHeader = () => {
   return (
     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-      {/* LEFT */}
       <div>
         <h1 className="text-4xl font-bold text-gray-900">
           Room Allocation

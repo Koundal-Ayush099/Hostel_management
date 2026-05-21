@@ -18,3 +18,13 @@ export const createRoom = async (
 
   return response.data;
 };
+export const getAvailableRooms =
+  async () => {
+
+    const response =
+      await api.get(
+        "/rooms/available"
+      );
+
+    return response.data;
+  };

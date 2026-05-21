@@ -118,3 +118,16 @@ export const deleteRoom = async (
     });
   }
 };
+export const getAvailableRooms =
+  async (
+    req: Request,
+    res: Response
+  ) => {
+
+    const rooms =
+      await roomService.getAvailableRooms();
+
+    res.status(200).json(
+      rooms
+    );
+  };

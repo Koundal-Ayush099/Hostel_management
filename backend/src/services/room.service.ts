@@ -116,3 +116,21 @@ export const deleteRoom = async (
     [id]
   );
 };
+export const getAvailableRooms =
+  async () => {
+
+    const [rows] =
+      await pool.query(`
+        SELECT
+          id,
+          room_number,
+          status
+        FROM rooms
+        WHERE status IN (
+          'VACANT',
+          'PARTIAL'
+        )
+      `);
+
+    return rows;
+  };
