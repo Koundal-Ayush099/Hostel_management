@@ -15,9 +15,7 @@ export const getAllStudents = async () => {
   return rows;
 };
 
-export const getStudentById = async (
-  id: number
-) => {
+export const getStudentById = async (id: number) => {
   const [rows]: any = await pool.query(
     `
     SELECT 
@@ -29,16 +27,13 @@ export const getStudentById = async (
     ON students.room_id = rooms.id
     WHERE students.id = ?
     `,
-    [id]
+    [id],
   );
 
   return rows[0];
 };
 
-export const createStudent = async (
-  data: any
-) => {
-
+export const createStudent = async (data: any) => {
   const {
     fullName,
     email,
@@ -54,9 +49,8 @@ export const createStudent = async (
     roomId,
   } = data;
 
-  const [result]: any =
-    await pool.query(
-      `
+  const [result]: any = await pool.query(
+    `
       INSERT INTO students (
         full_name,
         email,
@@ -73,28 +67,27 @@ export const createStudent = async (
       )
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
-      [
-        fullName,
-        email,
-        phone,
-        gender,
-        dob,
-        course,
-        year,
-        status,
-        profileImage,
-        emergencyContactName,
-        emergencyContactPhone,
-        roomId,
-      ]
-    );
+    [
+      fullName,
+      email,
+      phone,
+      gender,
+      dob,
+      course,
+      year,
+      status,
+      profileImage,
+      emergencyContactName,
+      emergencyContactPhone,
+      roomId,
+    ],
+  );
 
   /*
     UPDATE ROOM OCCUPANCY
   */
 
   if (roomId) {
-
     await pool.query(
       `
       UPDATE rooms
@@ -102,63 +95,43 @@ export const createStudent = async (
         occupied_beds + 1
       WHERE id = ?
       `,
-      [roomId]
+      [roomId],
     );
 
-    const [rooms]: any =
-      await pool.query(
-        `
+    const [rooms]: any = await pool.query(
+      `
         SELECT
           capacity,
           occupied_beds
         FROM rooms
         WHERE id = ?
         `,
-        [roomId]
-      );
+      [roomId],
+    );
 
     const room = rooms[0];
 
-    let roomStatus =
-      "PARTIAL";
+    let roomStatus = "PARTIAL";
 
-    if (
-      room.occupied_beds === 0
-    ) {
-
-      roomStatus =
-        "VACANT";
+    if (room.occupied_beds <= 0) {
+      roomStatus = "VACANT";
+    } else if (room.occupied_beds >= room.capacity) {
+      roomStatus = "OCCUPIED";
     }
-
-    else if (
-      room.occupied_beds >=
-      room.capacity
-    ) {
-
-      roomStatus =
-        "OCCUPIED";
-    }
-
     await pool.query(
       `
       UPDATE rooms
       SET status = ?
       WHERE id = ?
       `,
-      [
-        roomStatus,
-        roomId,
-      ]
+      [roomStatus, roomId],
     );
   }
 
   return result.insertId;
 };
 
-export const updateStudent = async (
-  id: number,
-  data: any
-) => {
+export const updateStudent = async (id: number, data: any) => {
   const {
     fullName,
     email,
@@ -206,18 +179,16 @@ export const updateStudent = async (
       emergencyContactPhone,
       roomId,
       id,
-    ]
+    ],
   );
 };
 
-export const deleteStudent = async (
-  id: number
-) => {
+export const deleteStudent = async (id: number) => {
   await pool.query(
     `
     DELETE FROM students
     WHERE id = ?
     `,
-    [id]
+    [id],
   );
 };

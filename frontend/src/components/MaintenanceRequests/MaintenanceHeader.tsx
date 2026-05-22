@@ -1,5 +1,3 @@
-import { PlusCircle } from "lucide-react";
-
 const MaintenanceHeader = () => {
   return (
     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -12,12 +10,6 @@ const MaintenanceHeader = () => {
           Manage and track facility maintenance tasks
         </p>
       </div>
-
-      <button className="bg-blue-700 hover:bg-blue-800 text-white px-5 h-12 rounded-xl flex items-center gap-2 transition">
-        <PlusCircle size={18} />
-
-        Add New Request
-      </button>
     </div>
   );
 };

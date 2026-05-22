@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { UserPlus, LogIn } from "lucide-react";
+import { UserPlus} from "lucide-react";
 import AddStudentModal from "./AddStudentModal";
 const DashboardHeader = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -32,11 +32,6 @@ const DashboardHeader = () => {
         >
           <UserPlus size={18} />
           Add Student
-        </button>
-
-        <button className="border border-gray-300 bg-white hover:bg-gray-100 px-5 py-3 rounded-xl flex items-center gap-2 transition">
-          <LogIn size={18} />
-          Check-in
         </button>
       </div>
       <AddStudentModal isOpen={openModal} onClose={() => setOpenModal(false)} />

@@ -8,26 +8,23 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] =
-    useState("");
-  const [loading, setLoading] =
-    useState(false);
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
     try {
       setLoading(true);
 
-      const data =
-        await loginUser(
-          email,
-          password
-        );
+      const data = await loginUser(email, password);
 
-      localStorage.setItem(
-        "token",
-        data.token
-      );
-      navigate("/dashboard");
+      localStorage.setItem("token", data.token);
+
+      localStorage.setItem("user", JSON.stringify(data));
+      if (data.role === "ADMIN") {
+        navigate("/dashboard");
+      } else if (data.role === "STUDENT") {
+        navigate("/student");
+      }
     } catch (error) {
       console.log(error);
 
@@ -51,13 +48,9 @@ const Login = () => {
             </div>
 
             <div>
-              <h1 className="text-4xl font-bold">
-                Ostello
-              </h1>
+              <h1 className="text-4xl font-bold">Ostello</h1>
 
-              <p className="text-blue-100">
-                Hostel Management System
-              </p>
+              <p className="text-blue-100">Hostel Management System</p>
             </div>
           </div>
 
@@ -68,30 +61,19 @@ const Login = () => {
           </h2>
 
           <p className="text-lg text-slate-200 max-w-lg leading-relaxed">
-            Streamline hostel operations,
-            manage students, rooms,
-            complaints, payments, and
-            maintenance — all from one
-            modern dashboard.
+            Streamline hostel operations, manage students, rooms, complaints,
+            payments, and maintenance — all from one modern dashboard.
           </p>
 
           <div className="flex gap-6 mt-12">
             <div className="bg-white/10 border border-white/10 backdrop-blur-md px-6 py-4 rounded-2xl">
-              <h3 className="text-3xl font-bold">
-                500+
-              </h3>
-              <p className="text-sm text-slate-200">
-                Students Managed
-              </p>
+              <h3 className="text-3xl font-bold">500+</h3>
+              <p className="text-sm text-slate-200">Students Managed</p>
             </div>
 
             <div className="bg-white/10 border border-white/10 backdrop-blur-md px-6 py-4 rounded-2xl">
-              <h3 className="text-3xl font-bold">
-                100%
-              </h3>
-              <p className="text-sm text-slate-200">
-                Secure Platform
-              </p>
+              <h3 className="text-3xl font-bold">100%</h3>
+              <p className="text-sm text-slate-200">Secure Platform</p>
             </div>
           </div>
         </div>
@@ -108,13 +90,9 @@ const Login = () => {
               </div>
 
               <div>
-                <h1 className="text-2xl font-bold text-slate-800">
-                  Ostello
-                </h1>
+                <h1 className="text-2xl font-bold text-slate-800">Ostello</h1>
 
-                <p className="text-sm text-slate-500">
-                  Hostel Management
-                </p>
+                <p className="text-sm text-slate-500">Hostel Management</p>
               </div>
             </div>
 
@@ -124,8 +102,7 @@ const Login = () => {
               </h2>
 
               <p className="text-slate-500 mt-2">
-                Login to continue managing
-                your hostel seamlessly.
+                Login to continue managing your hostel seamlessly.
               </p>
             </div>
 
@@ -137,21 +114,14 @@ const Login = () => {
                 </label>
 
                 <div className="flex items-center border border-slate-200 rounded-2xl px-4 h-14 focus-within:border-blue-600 transition">
-                  <Mail
-                    size={20}
-                    className="text-slate-400"
-                  />
+                  <Mail size={20} className="text-slate-400" />
 
                   <input
                     type="email"
                     placeholder="Enter your email"
                     className="flex-1 h-full px-3 outline-none bg-transparent"
                     value={email}
-                    onChange={(e) =>
-                      setEmail(
-                        e.target.value
-                      )
-                    }
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -163,21 +133,14 @@ const Login = () => {
                 </label>
 
                 <div className="flex items-center border border-slate-200 rounded-2xl px-4 h-14 focus-within:border-blue-600 transition">
-                  <Lock
-                    size={20}
-                    className="text-slate-400"
-                  />
+                  <Lock size={20} className="text-slate-400" />
 
                   <input
                     type="password"
                     placeholder="Enter your password"
                     className="flex-1 h-full px-3 outline-none bg-transparent"
                     value={password}
-                    onChange={(e) =>
-                      setPassword(
-                        e.target.value
-                      )
-                    }
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
@@ -200,20 +163,23 @@ const Login = () => {
                 disabled={loading}
                 className="w-full h-14 rounded-2xl bg-blue-700 hover:bg-blue-800 transition text-white font-semibold flex items-center justify-center gap-2 shadow-lg shadow-blue-700/20"
               >
-                {loading
-                  ? "Logging in..."
-                  : "Login"}
+                {loading ? "Logging in..." : "Login"}
 
-                {!loading && (
-                  <ArrowRight size={18} />
-                )}
+                {!loading && <ArrowRight size={18} />}
               </button>
             </div>
+            <p className="mt-5 text-center">
+              Dont have an account?{" "}
+              <span
+                className="text-blue-400 hover:cursor-pointer"
+                onClick={() => navigate("/signup")}
+              >
+                SignUp
+              </span>
+            </p>
 
-            {/* Footer */}
             <p className="text-center text-sm text-slate-500 mt-8">
-              © 2026 Ostello. All rights
-              reserved.
+              © 2026 Ostello. All rights reserved.
             </p>
           </div>
         </div>

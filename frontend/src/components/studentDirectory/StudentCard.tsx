@@ -31,9 +31,7 @@ const StudentCard = ({
 }: Props) => {
   return (
     <div className="bg-white rounded-3xl p-4 shadow-sm">
-      {/* TOP */}
       <div className="flex items-start justify-between">
-        {/* IMAGE */}
         <div className="relative">
           <img
             src={image}
@@ -45,8 +43,6 @@ const StudentCard = ({
             className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${dotStyles[status]}`}
           ></div>
         </div>
-
-        {/* STATUS */}
         <div className="text-right">
           <span
             className={`text-sm px-3 py-1 rounded-xl ${statusStyles[status]}`}
